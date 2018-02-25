@@ -1,0 +1,40 @@
+<h1>Pages</h1>
+<a href="{% url 'matchingsystem:student_form' %}">Student form page<a>
+</br>
+<a href="{% url 'matchingsystem:client_form' %}">Client form page<a>
+</br>
+<a href="{% url 'matchingsystem:results' %}">Results<a>
+</br>
+<a href="/admin">Admin<a>
+
+<h1>Data</h1>
+{% if students %}
+    <p>Student List</p>
+    <ul>
+    {% for student in students %}
+        <li><p>{{student.student_id}}</p></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No students registered</p>
+{% endif %}
+{% if projects %}
+    <p>Project List</p>
+    <ul>
+    {% for project in projects %}
+        <li><p>{{project.project_name}}</p></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No projects registered</p>
+{% endif %}
+{% if tags %}
+    <p>Tag List</p>
+    <ul>
+    {% for tag in tags %}
+        <li><p>{{tag.tag_description}}</p></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No tags registered</p>
+{% endif %}
