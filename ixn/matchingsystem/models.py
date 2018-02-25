@@ -4,5 +4,8 @@ from django.db import models
 # So makes adding / removing features easy
 
 class Tag(models.Model):
-    # Default primary key is provided
+    # Default primary key is provided as id
     tag_description = models.CharField(max_length=100) # Length to be changed
+
+    def __str__(self):
+        return self.tag_description

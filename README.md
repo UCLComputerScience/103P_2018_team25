@@ -24,3 +24,10 @@ PORT:
 4. Run the Django server with: `python3 manage.py runserver`
 5. Load the site at: http://localhost:8000
 6. Add `/matchingsystem` to the URL to enter the matching system pages
+
+## Admin Credentials
+These are the test admin details for logging into that area of the site
+```
+username: admin
+password: djangoadmin
+```
