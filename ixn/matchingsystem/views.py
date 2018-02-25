@@ -15,10 +15,13 @@ def index(request):
     return render(request, 'matchingsystem/index.html', context)
 
 def student_form(request):
-    return HttpResponse("Student form index")
+    context = {}
+    return render(request, 'matchingsystem/student.html', context)
 
 def client_form(request):
-    return HttpResponse("Client form index")
+    context = {}
+    return render(request, 'matchingsystem/client.html', context)
 
 def results(request):
-    return HttpResponse("Results page index")
+    context = {}
+    return render(request, 'matchingsystem/results.html', context)
