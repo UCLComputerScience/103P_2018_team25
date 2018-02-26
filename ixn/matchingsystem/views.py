@@ -1,7 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.views import generic
-from .models import Student, Project, Tag
+from django.urls import reverse
+from .models import Student, Project, Tag, StudentForm, ProjectForm
 
 def index(request):
     # Just displays all data from table
@@ -16,11 +16,33 @@ def index(request):
     return render(request, 'matchingsystem/index.html', context)
 
 def student_form(request):
-    context = {}
+    if(request.method == 'POST'):
+        form = StudentForm(request.POST)
+        if(form.is_valid()):
+            model_instance = form.save(commit=False)
+            # Clean and validate data
+            model_instance.save()
+            return redirect('matchingsystem:index')
+    else:
+        form = StudentForm
+    context = {
+        'form': form
+    }
     return render(request, 'matchingsystem/student.html', context)
 
-def client_form(request):
-    context = {}
+def project_form(request): # Do same processing here
+    if(request.method == 'POST'):
+        form = ProjectForm(request.POST)
+        if(form.is_valid()):
+            model_instance = form.save(commit=False)
+            # Clean and validate data
+            model_instance.save()
+            return redirect('matchingsystem:index')
+    else:
+        form = ProjectForm
+    context = {
+        'form': form
+    }
     return render(request, 'matchingsystem/client.html', context)
 
 def results(request):
