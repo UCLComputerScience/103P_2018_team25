@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse
-from .models import Student, Project, Tag, StudentForm, ProjectForm
+from .models import Student, Project, Tag
+from .forms import StudentForm, ProjectForm
 
 def index(request):
     # Just displays all data from table
@@ -21,7 +22,7 @@ def student_form(request):
         if(form.is_valid()):
             model_instance = form.save(commit=False)
             # Clean and validate data
-            model_instance.save()
+            #model_instance.save()
             return redirect('matchingsystem:index')
     else:
         form = StudentForm
@@ -36,7 +37,7 @@ def project_form(request): # Do same processing here
         if(form.is_valid()):
             model_instance = form.save(commit=False)
             # Clean and validate data
-            model_instance.save()
+            #model_instance.save()
             return redirect('matchingsystem:index')
     else:
         form = ProjectForm

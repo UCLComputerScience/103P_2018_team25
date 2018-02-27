@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.forms import ModelForm
 
 # These are the models to define database structure (tables, relationships)
 
@@ -25,11 +24,6 @@ class Student(models.Model):
     def __str__(self):
         return self.student_id
 
-class StudentForm(ModelForm): # Use ModelForm docs to format later
-    class Meta:
-        model = Student
-        fields = '__all__' # grab all fields for now
-
 class Project(models.Model):
     # Uses default primary key (id)
     project_name = models.CharField(max_length=200) # Length to be changed
@@ -42,11 +36,6 @@ class Project(models.Model):
 
     def __str__(self):
         return self.project_name
-
-class ProjectForm(ModelForm):
-    class Meta:
-        model = Project
-        fields = '__all__'
 
 #TODO
 # store exam data imported from script
