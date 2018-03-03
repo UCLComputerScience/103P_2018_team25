@@ -3,8 +3,6 @@
 </br>
 <a href="{% url 'matchingsystem:project_form' %}">Client form page<a>
 </br>
-<a href="{% url 'matchingsystem:results' %}">Results<a>
-</br>
 <a href="/admin">Admin<a>
 
 <h1>Data</h1>
@@ -37,4 +35,14 @@
     </ul>
 {% else %}
     <p>No tags registered</p>
+{% endif %}
+{% if modules %}
+    <p>Module List</p>
+    <ul>
+    {% for module in modules %}
+        <li><p>{{module.module_code}}</p></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No modules registered</p>
 {% endif %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse
-from .models import Student, Project, Tag
+from .models import Student, Project, Tag, Module
 from .forms import StudentForm, ProjectForm, MatchingForm, UploadForm
 
 def index(request):
@@ -9,10 +9,12 @@ def index(request):
     students = Student.objects.all()
     projects = Project.objects.all()
     tags = Tag.objects.all()
+    modules = Module.objects.all()
     context = {
         'students': students,
         'projects': projects,
-        'tags': tags
+        'tags': tags,
+        'modules': modules
     }
     return render(request, 'matchingsystem/index.html', context)
 
@@ -68,7 +70,3 @@ def upload_data(request):
         form = UploadForm
     context = {"form": form}
     return render(request, 'matchingsystem/upload.html', context)
-
-def results(request):
-    context = {}
-    return render(request, 'matchingsystem/results.html', context)

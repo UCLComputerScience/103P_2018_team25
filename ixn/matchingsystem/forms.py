@@ -37,7 +37,6 @@ class UploadForm(forms.Form):
     exam_results = forms.FileField(validators=[validate_file_extension])
 
     def save(self):
-        print("upload form")
         student_records = csv.reader(self.cleaned_data['student_data'])
         for line in student_records:
             pass # Add to tables
