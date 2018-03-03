@@ -60,6 +60,7 @@ def start_matching(request):
 def upload_data(request):
     if(request.method == 'POST'):
         form = UploadForm(request.POST, request.FILES)
+        print(form.is_valid())
         if(form.is_valid()):
             form.save()
             return redirect('admin:index') # TODO Redirect to a success page

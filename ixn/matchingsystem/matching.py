@@ -3,6 +3,8 @@ from .models import Student, Project, Tag
 def start_matching_algorithm(module, team_size):
     print('Starting matching algorithm...')
     pass # Whole structure of algorithm defined in here
+# will need to validate there is enough students, projects, team leaders etc
+# will need to validate that all data required has been inputted to database for the chosen module
 
 def setup(): # Grabs required data from database
     pass
