@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Widget
+from django.forms import ModelForm, Form
 from .models import Student, Project
 
 #Forms for basic data input
@@ -13,8 +13,3 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
-
-# Forms for matching process
-
-#class MatchingForm(django.models):
-#    matching_button = models.CharField()

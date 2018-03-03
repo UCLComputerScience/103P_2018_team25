@@ -47,9 +47,9 @@ def project_form(request): # Do same processing here
     }
     return render(request, 'matchingsystem/client.html', context)
 
-def start_matching(request): # This function begins the matching algorithm - to be replaced when front end is started
+def start_matching(request): # This function begins the matching algorithm
     context = {}
-    start_matching_algorithm() # may need to run this in the background?
+#start_matching_algorithm() # may need to run this in the background?
     return render(request, 'matchingsystem/matching.html', context)
 
 def results(request):

@@ -44,9 +44,15 @@ class Student(models.Model):
 
 class Project(models.Model):
     # Uses default primary key (id)
-    project_name = models.CharField(max_length=200)
+    project_title = models.CharField(max_length=200) # These were provided by IXN
+    project_background = models.CharField(max_length=500)
+    project_objectives = models.CharField(max_length=200)
     project_description = models.CharField(max_length=500)
-    project_complexity = models.IntegerField(
+    project_dataset = models.CharField(max_length=500)
+    project_resources = models.CharField(max_length=500)
+    project_mentors = models.CharField(max_length=200)
+
+    project_complexity = models.IntegerField( # These are needed for matching
             default=1,
             validators=[MaxValueValidator(MAX_PROJECT_COMPLEXITY), MinValueValidator(1)])
     project_module = models.ForeignKey(Module, on_delete=models.CASCADE)
