@@ -34,7 +34,7 @@ class MatchingForm(forms.Form):
         
 class UploadForm(forms.Form):
     student_data = forms.FileField(validators=[validate_file_extension])
-    exam_results = forms.FileField()
+    exam_results = forms.FileField(validators=[validate_file_extension])
 
     def save(self):
         print("upload form")
