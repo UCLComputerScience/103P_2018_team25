@@ -1,6 +1,6 @@
 from .models import Student, Project, Tag
 
-def start_matching_algorithm(): # TODO will be passing module code and team size here so allow algorithm to find correct projects and students
+def start_matching_algorithm(module, team_size):
     print('Starting matching algorithm...')
     pass # Whole structure of algorithm defined in here
 

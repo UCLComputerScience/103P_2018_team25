@@ -3,7 +3,6 @@ from django.views import generic
 from django.urls import reverse
 from .models import Student, Project, Tag
 from .forms import StudentForm, ProjectForm, MatchingForm, UploadForm
-from .matching import start_matching_algorithm
 
 def index(request):
     # Just displays all data from table
@@ -32,7 +31,7 @@ def student_form(request):
     }
     return render(request, 'matchingsystem/student.html', context)
 
-def project_form(request): # Do same processing here
+def project_form(request):
     if(request.method == 'POST'):
         form = ProjectForm(request.POST)
         if(form.is_valid()):
@@ -47,14 +46,25 @@ def project_form(request): # Do same processing here
     }
     return render(request, 'matchingsystem/client.html', context)
 
-def start_matching(request): # This function begins the matching algorithm
-    form = MatchingForm # TODO add POST handler
+def start_matching(request):
+    if(request.method == 'POST'):
+        form = MatchingForm(request.POST)
+        if(form.is_valid()):
+            form.save()
+            return redirect('admin:index')
+    else:
+        form = MatchingForm
     context = {"form": form}
-#start_matching_algorithm() # may need to run this in the background? Do this in POST
     return render(request, 'matchingsystem/matching.html', context)
 
 def upload_data(request):
-    form = UploadForm # TODO add POST handler
+    if(request.method == 'POST'):
+        form = UploadForm(request.POST, request.FILES)
+        if(form.is_valid()):
+            form.save()
+            return redirect('admin:index') # TODO Redirect to a success page
+    else:
+        form = UploadForm
     context = {"form": form}
     return render(request, 'matchingsystem/upload.html', context)
 
