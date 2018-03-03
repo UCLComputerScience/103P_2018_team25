@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse
 from .models import Student, Project, Tag
-from .forms import StudentForm, ProjectForm
+from .forms import StudentForm, ProjectForm, MatchingForm, UploadForm
 from .matching import start_matching_algorithm
 
 def index(request):
@@ -48,9 +48,15 @@ def project_form(request): # Do same processing here
     return render(request, 'matchingsystem/client.html', context)
 
 def start_matching(request): # This function begins the matching algorithm
-    context = {}
-#start_matching_algorithm() # may need to run this in the background?
+    form = MatchingForm # TODO add POST handler
+    context = {"form": form}
+#start_matching_algorithm() # may need to run this in the background? Do this in POST
     return render(request, 'matchingsystem/matching.html', context)
+
+def upload_data(request):
+    form = UploadForm # TODO add POST handler
+    context = {"form": form}
+    return render(request, 'matchingsystem/upload.html', context)
 
 def results(request):
     context = {}
