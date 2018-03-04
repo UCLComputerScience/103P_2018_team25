@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from matchingsystem import views
 
 urlpatterns = [
     url(r'^matchingsystem/', include('matchingsystem.urls')),
+    url(r'^admin/matching/$', views.start_matching, name='matching'),
+    url(r'^admin/upload/$', views.upload_data, name='upload'),
     url(r'^admin/', admin.site.urls),
 ]

@@ -59,7 +59,7 @@ def start_matching(request):
     else:
         form = MatchingForm
     context = {"form": form}
-    return render(request, 'matchingsystem/matching.html', context)
+    return render(request, 'admin/matching.html', context)
 
 def upload_data(request):
     if(request.method == 'POST'):
@@ -73,4 +73,4 @@ def upload_data(request):
     else:
         form = UploadForm
     context = {"form": form}
-    return render(request, 'matchingsystem/upload.html', context)
+    return render(request, 'admin/upload.html', context)
