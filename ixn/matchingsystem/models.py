@@ -20,7 +20,7 @@ class Module(models.Model):
     def __str__(self):
         return self.module_code
 
-class Student(models.Model):
+class Student(models.Model): # Store all data and then bind csv row to this?
     student_code = models.CharField(max_length=10, primary_key=True);
     forename = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
@@ -54,7 +54,7 @@ class Student(models.Model):
             null=True)
 
     def __str__(self):
-        return self.student_code
+        return self.surname + ", " + self.forename
 
 class Project(models.Model):
     # Uses default primary key (id)
