@@ -57,13 +57,13 @@ class UploadForm(forms.Form):
                 student = Student.objects.get(pk=line[STUDENT_CODE_COL])
                 student.surname = line[STUDENT_SURNAME_COL]
                 student.forename = line[STUDENT_FORENAME_COL] # Update details
-            except Exception:
+            except Student.DoesNotExist:
                 student = Student(student_code=line[STUDENT_CODE_COL], surname=line[STUDENT_SURNAME_COL], forename=line[STUDENT_FORENAME_COL]) # Create the new student
             student.save()
 
             try:
                 student_module = StudentModule.objects.get(student=student, module=module) # If the link exists don't create it again
-            except Exception:
+            except Student.DoesNotExist:
                 student_module = StudentModule(student=student, module=module) # Create a new link
             student_module.save()
 
