@@ -9,15 +9,13 @@ MAX_TEAM_LEADER = 3
 MAX_PROJECT_COMPLEXITY = 5
 
 class Tag(models.Model):
-    # Uses default primary key (id)
-    tag_description = models.CharField(max_length=100)
+    tag_description = models.CharField(max_length=100, primary_key=True)
 
     def __str__(self): # To give an easier represenation when iterating
         return self.tag_description
 
 class Module(models.Model):
-    # Uses default primary key (id)
-    module_code = models.CharField(max_length=100)
+    module_code = models.CharField(max_length=100, primary_key=True)
 
     def __str__(self):
         return self.module_code
@@ -34,10 +32,26 @@ class Student(models.Model):
             max_digits=5, # Only allow up to 100 with 2dp precision
             decimal_places=2,
             validators=[MaxValueValidator(100)])
-    tag_like_1 = models.ForeignKey(Tag, related_name='tag_like_1', on_delete=models.CASCADE)
-    tag_like_2 = models.ForeignKey(Tag, related_name='tag_like_2', on_delete=models.CASCADE)
-    tag_like_3 = models.ForeignKey(Tag, related_name='tag_like_3', on_delete=models.CASCADE)
-    tag_dislike_1 = models.ForeignKey(Tag, related_name='tag_dislike_1', on_delete=models.CASCADE)
+    tag_like_1 = models.ForeignKey(
+            Tag,
+            related_name='tag_like_1',
+            on_delete=models.CASCADE,
+            null=True)
+    tag_like_2 = models.ForeignKey(
+            Tag,
+            related_name='tag_like_2',
+            on_delete=models.CASCADE,
+            null=True)
+    tag_like_3 = models.ForeignKey(
+            Tag,
+            related_name='tag_like_3',
+            on_delete=models.CASCADE,
+            null=True)
+    tag_dislike_1 = models.ForeignKey(
+            Tag,
+            related_name='tag_dislike_1',
+            on_delete=models.CASCADE,
+            null=True)
 
     def __str__(self):
         return self.student_code
@@ -68,4 +82,4 @@ class StudentModule(models.Model):
     module = models.ForeignKey(Module)
 
     def __str__(self):
-        return self.student + ":" + self.module
+        return self.student.__str__() + ":" + self.module.__str__()

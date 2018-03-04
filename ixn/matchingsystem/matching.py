@@ -5,6 +5,8 @@ def start_matching_algorithm(module, team_size):
     pass # Whole structure of algorithm defined in here
 # will need to validate there is enough students, projects, team leaders etc
 # will need to validate that all data required has been inputted to database for the chosen module
+# will need to validate that students have filled in their part
+# will just redirect to a page telling the error that has occured
 
 def setup(): # Grabs required data from database
     pass

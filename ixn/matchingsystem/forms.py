@@ -1,5 +1,4 @@
 from django import forms
-import csv
 from .models import Student, Project, Module
 from .matching import start_matching_algorithm
 
@@ -35,12 +34,3 @@ class MatchingForm(forms.Form):
 class UploadForm(forms.Form):
     student_data = forms.FileField(validators=[validate_file_extension])
     exam_results = forms.FileField(validators=[validate_file_extension])
-
-    def save(self):
-        student_records = csv.reader(self.cleaned_data['student_data'])
-        for line in student_records:
-            pass # Add to tables
-        
-        student_exams = csv.reader(self.cleaned_data['exam_results'])
-        for line in student_exams:
-            pass # Add to tables
