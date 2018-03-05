@@ -8,6 +8,14 @@ from decimal import Decimal
 MAX_TEAM_LEADER = 3
 MAX_PROJECT_COMPLEXITY = 5
 
+def get_integer_choices(start, finish): 
+    # Generates a drop down for integer fields with a range
+    choices = []
+    for i in range(start, finish + 1):
+        choice = (i, str(i))
+        choices.append(choice)
+    return choices
+
 class Tag(models.Model):
     tag_description = models.CharField(
             max_length=100,
@@ -38,6 +46,7 @@ class Student(models.Model): # Store all data and then bind csv row to this?
             max_length=100,
             help_text='Student Surname')
     previous_leader = models.IntegerField(
+            choices=get_integer_choices(0, MAX_TEAM_LEADER),
             default=0,
             validators=[MaxValueValidator(MAX_TEAM_LEADER), MinValueValidator(0)],
             help_text='Number of previous team leader roles')
@@ -105,9 +114,10 @@ class Project(models.Model):
 
     # These fields are needed for matching - filled in by admin
     project_complexity = models.IntegerField(
+            choices=get_integer_choices(1, MAX_PROJECT_COMPLEXITY),
             default=1,
             validators=[MaxValueValidator(MAX_PROJECT_COMPLEXITY), MinValueValidator(1)],
-            help_text='Rating of the project difficulty from 1 to 3')
+            help_text='Rating of the project difficulty from 1 to 5')
     project_module = models.ForeignKey(
             Module,
             on_delete=models.CASCADE,
