@@ -1,10 +1,13 @@
-{% extends 'admin/index.html' %}
+{% extends 'admin/base_site.html' %}
 {% load i18n static %}
 
 {% block breadcrumbs %}
 <div class="breadcrumbs">
 <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
-&rsaquo; File Upload
+&rsaquo;
+<a href="/admin/matchingsystem">{% trans 'Matchingsystem' %}</a>
+&rsaquo;
+File Upload
 </div>
 {% endblock %}
 
