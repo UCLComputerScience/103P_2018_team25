@@ -52,7 +52,7 @@ class Student(models.Model): # Store all data and then bind csv row to this?
             related_name='tag_dislike_1',
             on_delete=models.CASCADE,
             null=True)
-#modules = models.ManyToManyField('Module')
+    modules = models.ManyToManyField('Module')
 
     def __str__(self):
         return self.surname + ", " + self.forename
@@ -76,11 +76,3 @@ class Project(models.Model):
 
     def __str__(self):
         return self.project_title
-
-class StudentModule(models.Model):
-    # Uses default primary key (id)
-    student = models.ForeignKey(Student)
-    module = models.ForeignKey(Module)
-
-    def __str__(self):
-        return self.student.__str__() + ":" + self.module.__str__()

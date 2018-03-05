@@ -1,23 +1,17 @@
 from django.contrib import admin
-from .models import Tag, Project, Student, Module, StudentModule
+from .models import Tag, Project, Student, Module
 
 # Customise the admin area
 
-class StudentModuleInline(admin.TabularInline):
-    # Allows modules to be edited in the student form
-    model = StudentModule
-    extra = 0
-
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('student_code', 'surname', 'forename')
-#list_filter = ['modules']
+    list_filter = ['modules']
     search_fields = ['student_code', 'surname', 'forename']
 
     fieldsets = [
-        ('Student Information', {'fields': ['student_code', 'forename', 'surname', 'exam_results']}),
+        ('Student Information', {'fields': ['student_code', 'forename', 'surname', 'exam_results', 'modules']}),
         ('Matching Information', {'fields': ['tag_like_1', 'tag_like_2', 'tag_like_3', 'tag_dislike_1', 'previous_leader']}),
     ]
-    inlines = [StudentModuleInline]
 
 class ProjectAdmin(admin.ModelAdmin): # Make fields easier to see?
     list_display = ('project_title', 'project_module', 'project_tag', 'project_valid')
