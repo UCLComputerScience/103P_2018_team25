@@ -62,7 +62,7 @@ class UploadForm(forms.Form):
             student.save()
             student.modules.add(module)
         
-   def add_exams(self, f):
+    def add_exams(self, f):
         csv_file = self.get_file_for_read(f)
         STUDENT_CODE_COL = 0 # Column numbers from spreadsheet template
         STUDENT_EXAM_COL = 3
