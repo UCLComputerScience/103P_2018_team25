@@ -5,17 +5,18 @@ from .matching import start_matching_algorithm
 
 MAX_TEAM_SIZE = 5
 
-# Forms for basic data input
+# Forms for data input
 
-class StudentForm(forms.ModelForm): # Use ModelForm docs to format later
+class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = '__all__' # grab all fields for now
+        fields = ['tag_like_1', 'tag_like_2', 'tag_like_3', 'tag_dislike_1']
 
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
+        exclude = ['project_tag', 'project_complexity', 'project_module', 'project_valid']
 
 # Forms for custom admin views
 
@@ -24,8 +25,8 @@ def validate_file_extension(f):
         raise forms.ValidationError("Only .csv files are accepted")
 
 class MatchingForm(forms.Form):
-    module = forms.ModelChoiceField(queryset=Module.objects.all())
-    team_size = forms.IntegerField(min_value=1, max_value=MAX_TEAM_SIZE)
+    module = forms.ModelChoiceField(queryset=Module.objects.all(), label='Select module to match')
+    team_size = forms.IntegerField(min_value=1, max_value=MAX_TEAM_SIZE, label='Selected team size')
 
     def save(self):
         selected_module = self.cleaned_data['module']
@@ -33,8 +34,8 @@ class MatchingForm(forms.Form):
         start_matching_algorithm(selected_module, selected_team_size)
         
 class UploadForm(forms.Form):
-    student_data = forms.FileField(validators=[validate_file_extension])
-    exam_results = forms.FileField(validators=[validate_file_extension])
+    student_data = forms.FileField(validators=[validate_file_extension], label='Upload student data')
+    exam_results = forms.FileField(validators=[validate_file_extension], label='Upload exam results')
 
     def get_file_for_read(self, f):
         csv_file = io.StringIO(f.read().decode('utf-8'))
