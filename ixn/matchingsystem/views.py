@@ -55,7 +55,7 @@ def start_matching(request):
         if(form.is_valid()):
             form.save()
             messages.success(request, 'Matching successful')
-            return redirect('matchingsystem:matching')
+            return redirect('matching')
     else:
         form = MatchingForm
     context = {"form": form}
@@ -69,7 +69,7 @@ def upload_data(request):
             form.add_exams(request.FILES['exam_results'])
 
             messages.success(request, 'Upload successful')
-            return redirect('matchingsystem:upload')
+            return redirect('upload')
     else:
         form = UploadForm
     context = {"form": form}

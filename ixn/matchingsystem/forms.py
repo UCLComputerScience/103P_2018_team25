@@ -63,7 +63,7 @@ class UploadForm(forms.Form):
 
             try:
                 student_module = StudentModule.objects.get(student=student, module=module) # If the link exists don't create it again
-            except Student.DoesNotExist:
+            except StudentModule.DoesNotExist:
                 student_module = StudentModule(student=student, module=module) # Create a new link
             student_module.save()
 
