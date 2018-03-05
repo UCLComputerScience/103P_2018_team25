@@ -21,7 +21,7 @@ class Module(models.Model):
     module_code = models.CharField(
             max_length=100,
             primary_key=True,
-            help_text='eg. COMP101P')
+            help_text='UCL Module Code eg. COMP101P')
 
     def __str__(self):
         return self.module_code
@@ -71,7 +71,7 @@ class Student(models.Model): # Store all data and then bind csv row to this?
             on_delete=models.CASCADE,
             null=True,
             help_text='Student\'s Least Preference')
-    modules = models.ManyToManyField(
+    student_modules = models.ManyToManyField(
             'Module',
             help_text='Modules the student is enrolled in')
 
@@ -112,9 +112,8 @@ class Project(models.Model):
             Module,
             on_delete=models.CASCADE,
             help_text='The module the project is to be matched with')
-    project_tag = models.ForeignKey(
-            Tag,
-            on_delete=models.CASCADE,
+    project_tags = models.ManyToManyField(
+            'Tag',
             help_text='The descriptors of the project')
     project_valid = models.BooleanField(
             default=False,
