@@ -52,6 +52,7 @@ class Student(models.Model): # Store all data and then bind csv row to this?
             related_name='tag_dislike_1',
             on_delete=models.CASCADE,
             null=True)
+#modules = models.ManyToManyField('Module')
 
     def __str__(self):
         return self.surname + ", " + self.forename
@@ -74,7 +75,7 @@ class Project(models.Model):
     project_valid = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.project_name
+        return self.project_title
 
 class StudentModule(models.Model):
     # Uses default primary key (id)
