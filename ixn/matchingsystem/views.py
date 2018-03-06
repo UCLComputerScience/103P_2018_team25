@@ -20,8 +20,8 @@ def index(request):
     return render(request, 'matchingsystem/index.html', context)
 
 def student_form(request, student_code):
-    form = StudentForm
     student = get_object_or_404(Student, pk=student_code)
+    form = StudentForm(instance = student) # Prepopulate fields
     context = {
         'form': form,
         'student': student
