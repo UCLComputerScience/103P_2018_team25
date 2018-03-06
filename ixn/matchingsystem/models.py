@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 from decimal import Decimal
 
@@ -83,6 +84,10 @@ class Student(models.Model): # Store all data and then bind csv row to this?
     student_modules = models.ManyToManyField(
             'Module',
             help_text='Modules the student is enrolled in')
+
+    def get_absolute_url(self):
+        # Returns the URL to the form where tags can be updated
+        return reverse('matchingsystem:student_form', args=[str(self.student_code)])
 
     def __str__(self):
         return self.surname + ", " + self.forename

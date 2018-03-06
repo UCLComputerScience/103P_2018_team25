@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.urls import reverse
 from django.contrib import messages
@@ -19,20 +19,36 @@ def index(request):
     }
     return render(request, 'matchingsystem/index.html', context)
 
-def student_form(request):
-    if(request.method == 'POST'):
-        form = StudentForm(request.POST)
-        if(form.is_valid()):
-            model_instance = form.save(commit=False)
-            #model_instance.save()
-            messages.success(request, 'Form submission successful')
-            return redirect('matchingsystem:student_form')
-    else:
-        form = StudentForm
+def student_form(request, student_code):
+    form = StudentForm
+    student = get_object_or_404(Student, pk=student_code)
     context = {
-        'form': form
+        'form': form,
+        'student': student
     }
+    if(request.method == 'POST'):
+        try:
+            tag_like_1 = Tag.objects.get(pk=request.POST['tag_like_1'])
+            tag_like_2 = Tag.objects.get(pk=request.POST['tag_like_2'])
+            tag_like_3 = Tag.objects.get(pk=request.POST['tag_like_3'])
+            tag_dislike_1 = Tag.objects.get(pk=request.POST['tag_dislike_1'])
+        except(KeyError, Tag.DoesNotExist):
+            messages.error(request, 'Tag invalid')
+            return render(request, 'matchingsystem/student.html', context)
+        else:
+            student.tag_like_1 = tag_like_1
+            student.tag_like_2 = tag_like_2
+            student.tag_like_3 = tag_like_3
+            student.tag_dislike_1 = tag_dislike_1
+            student.save()
+            messages.success(request, 'Form submission successful')
     return render(request, 'matchingsystem/student.html', context)
+
+class StudentList(generic.ListView):
+    model = Student
+    context_object_name = 'student_list'
+    queryset = Student.objects.all()[:10] # Show 10 recent students for now
+    template_name = 'matchingsystem/student_list.html'
 
 def project_form(request):
     if(request.method == 'POST'):

@@ -1,10 +1,13 @@
 <h1>Student Form</h1>
+<p>Student Code: {{ student.student_code }}</p>
+<p>Surname: {{ student.surname }}</p>
+<p>Forename: {{ student.forename }}</p>
 
 <form method="post" action="">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit"/>
-    <input type="button" value="Back" onclick="window.location='{% url 'matchingsystem:index' %}'"/>
+    <input type="button" value="Back" onclick="window.location='{% url 'matchingsystem:student_list' %}'"/>
 </form>
 
 {% if messages %}
