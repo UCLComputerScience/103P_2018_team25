@@ -30,3 +30,4 @@ admin.site.register(Project, ProjectAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Tag)
 admin.site.register(Module)
+admin.AdminSite.site_header = 'IXN Admin'

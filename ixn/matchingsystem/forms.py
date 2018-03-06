@@ -61,7 +61,7 @@ class UploadForm(forms.Form):
             except Student.DoesNotExist:
                 student = Student(student_code=line[STUDENT_CODE_COL], surname=line[STUDENT_SURNAME_COL], forename=line[STUDENT_FORENAME_COL]) # Create the new student
             student.save()
-            student.modules.add(module)
+            student.student_modules.add(module)
         
     def add_exams(self, f):
         csv_file = self.get_file_for_read(f)
