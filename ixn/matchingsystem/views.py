@@ -43,10 +43,10 @@ def student_form(request, student_code):
                 student.tag_like_3 = tag_like_3
                 student.tag_dislike_1 = tag_dislike_1
                 student.save()
-                messages.success(request, 'Form submission successful')
+                messages.success(request, 'Interest submission successful')
                 return redirect('matchingsystem:student_form', student_code)
             else:
-                messages.error(request, 'Duplicate tags')
+                messages.error(request, 'You cannot select a tag twice!')
     return render(request, 'matchingsystem/student.html', context)
 
 def options_unique(options):
@@ -66,7 +66,7 @@ def project_form(request):
         if(form.is_valid()):
             model_instance = form.save(commit=False)
             model_instance.save()
-            messages.success(request, 'Form submission successful')
+            messages.success(request, 'Project submission successful')
             return redirect('matchingsystem:project_form')
     else:
         form = ProjectForm
@@ -78,7 +78,7 @@ def start_matching(request):
         form = MatchingForm(request.POST)
         if(form.is_valid()):
             form.save()
-            messages.success(request, 'Matching successful')
+            messages.success(request, 'Matching completed successfully')
             return redirect('matching')
     else:
         form = MatchingForm
