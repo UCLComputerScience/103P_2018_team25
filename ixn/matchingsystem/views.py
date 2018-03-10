@@ -32,18 +32,27 @@ def student_form(request, student_code):
             tag_like_2 = Tag.objects.get(pk=request.POST['tag_like_2'])
             tag_like_3 = Tag.objects.get(pk=request.POST['tag_like_3'])
             tag_dislike_1 = Tag.objects.get(pk=request.POST['tag_dislike_1'])
+            options = [tag_like_1, tag_like_2, tag_like_3, tag_dislike_1]
         except(KeyError, Tag.DoesNotExist):
-            messages.error(request, 'Tag invalid')
+            messages.error(request, 'Invalid tag chosen!')
             return render(request, 'matchingsystem/student.html', context)
         else:
-            student.tag_like_1 = tag_like_1
-            student.tag_like_2 = tag_like_2
-            student.tag_like_3 = tag_like_3
-            student.tag_dislike_1 = tag_dislike_1
-            student.save()
-            messages.success(request, 'Form submission successful')
-            return redirect('matchingsystem:student_form', student_code)
+            if(options_unique(options)):
+                student.tag_like_1 = tag_like_1
+                student.tag_like_2 = tag_like_2
+                student.tag_like_3 = tag_like_3
+                student.tag_dislike_1 = tag_dislike_1
+                student.save()
+                messages.success(request, 'Form submission successful')
+                return redirect('matchingsystem:student_form', student_code)
+            else:
+                messages.error(request, 'Duplicate tags')
     return render(request, 'matchingsystem/student.html', context)
+
+def options_unique(options):
+    if(len(options) == len(set(options))):
+        return True
+    return False
 
 class StudentList(generic.ListView):
     model = Student

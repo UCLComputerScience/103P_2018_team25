@@ -12,6 +12,19 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ['tag_like_1', 'tag_like_2', 'tag_like_3', 'tag_dislike_1']
+        widgets = {
+            'tag_like_1': forms.RadioSelect, # Use radio select widgets
+            'tag_like_2': forms.RadioSelect,
+            'tag_like_3': forms.RadioSelect,
+            'tag_dislike_1': forms.RadioSelect
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(StudentForm, self).__init__(*args, **kwargs)
+        self.fields['tag_like_1'].empty_label = None
+        self.fields['tag_like_2'].empty_label = None
+        self.fields['tag_like_3'].empty_label = None
+        self.fields['tag_dislike_1'].empty_label = None
 
 class ProjectForm(forms.ModelForm):
     class Meta:
