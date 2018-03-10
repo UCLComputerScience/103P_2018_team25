@@ -4,12 +4,12 @@ from .models import Tag, Project, Student, Module
 # Customise the admin area
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('student_code', 'surname', 'forename')
+    list_display = ('student_code', 'surname', 'forename', 'email')
     list_filter = ['student_modules']
-    search_fields = ['student_code', 'surname', 'forename']
+    search_fields = ['student_code', 'surname', 'forename', 'email']
 
     fieldsets = [
-        ('Student Information', {'fields': ['student_code', 'forename', 'surname', 'exam_results', 'student_modules']}),
+        ('Student Information', {'fields': ['student_code', 'forename', 'surname', 'email', 'exam_results', 'student_modules']}),
         ('Matching Information', {'fields': ['tag_like_1', 'tag_like_2', 'tag_like_3', 'tag_dislike_1', 'previous_leader']}),
     ]
     filter_horizontal = ('student_modules',)

@@ -46,6 +46,9 @@ class Student(models.Model): # Store all data and then bind csv row to this?
     surname = models.CharField(
             max_length=100,
             help_text='Student Surname')
+    email = models.CharField(
+            max_length=100,
+            help_text='Student Email')
     previous_leader = models.IntegerField(
             choices=get_integer_choices(0, MAX_TEAM_LEADER),
             default=0,

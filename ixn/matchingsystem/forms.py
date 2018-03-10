@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib import messages
 import csv, io
 from .models import Student, Project, Module
 from .matching import start_matching_algorithm
@@ -34,20 +35,25 @@ class MatchingForm(forms.Form):
         start_matching_algorithm(selected_module, selected_team_size)
         
 class UploadForm(forms.Form):
-    student_data = forms.FileField(validators=[validate_file_extension], label='Upload student data')
-    exam_results = forms.FileField(validators=[validate_file_extension], label='Upload exam results')
+    student_data = forms.FileField(
+            validators=[validate_file_extension],
+            label='Upload student data')
+    exam_results = forms.FileField(
+            validators=[validate_file_extension],
+            label='Upload exam results')
 
     def get_file_for_read(self, f):
         csv_file = io.StringIO(f.read().decode('utf-8'))
         reader = csv.reader(csv_file, delimiter=',')
         return reader
 
-    def add_students(self, f):
+    def add_students(self, f, request):
         csv_file = self.get_file_for_read(f)
         MODULE_CODE_COL = 0 # Column numbers from spreadsheet template
         STUDENT_CODE_COL = 1
         STUDENT_SURNAME_COL = 3
         STUDENT_FORENAME_COL = 4
+        STUDENT_EMAIL_COL = 11
 
         next(csv_file, None) # To skip header row
         for line in csv_file:
@@ -58,21 +64,27 @@ class UploadForm(forms.Form):
                 student = Student.objects.get(pk=line[STUDENT_CODE_COL])
                 student.surname = line[STUDENT_SURNAME_COL]
                 student.forename = line[STUDENT_FORENAME_COL] # Update details
+                student.email = line[STUDENT_EMAIL_COL]
             except Student.DoesNotExist:
-                student = Student(student_code=line[STUDENT_CODE_COL], surname=line[STUDENT_SURNAME_COL], forename=line[STUDENT_FORENAME_COL]) # Create the new student
+                student = Student(student_code=line[STUDENT_CODE_COL], surname=line[STUDENT_SURNAME_COL], forename=line[STUDENT_FORENAME_COL], email=line[STUDENT_EMAIL_COL]) # Create the new student
+            except forms.ValidationError:
+                messages.error(request, 'Could not import student:' + line[STUDENT_CODE_COL])
+                continue
             student.save()
             student.student_modules.add(module)
         
-    def add_exams(self, f):
+    def add_exams(self, f, request):
         csv_file = self.get_file_for_read(f)
         STUDENT_CODE_COL = 0 # Column numbers from spreadsheet template
         STUDENT_EXAM_COL = 3
 
-        next(csv_file, None) # To skip header row
+        next(csv_file, None)
         for line in csv_file:
             try:
                 student = Student.objects.get(pk=line[STUDENT_CODE_COL])
                 student.exam_results = line[STUDENT_EXAM_COL]
                 student.save()
             except Student.DoesNotExist:
-                pass # if no student, don't do anything
+                messages.error(request, 'Invalid student to import exam score: ' + line[STUDENT_CODE_COL])
+            except forms.ValidationError:
+                messages.error(request, 'Invalid exam score for: ' + line[STUDENT_CODE_COL])

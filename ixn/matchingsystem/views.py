@@ -81,8 +81,8 @@ def upload_data(request):
     if(request.method == 'POST'):
         form = UploadForm(request.POST, request.FILES)
         if(form.is_valid()):
-            form.add_students(request.FILES['student_data'])
-            form.add_exams(request.FILES['exam_results'])
+            form.add_students(request.FILES['student_data'], request)
+            form.add_exams(request.FILES['exam_results'], request)
 
             messages.success(request, 'Upload successful')
             return redirect('upload')
