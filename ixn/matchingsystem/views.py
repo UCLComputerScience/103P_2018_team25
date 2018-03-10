@@ -42,6 +42,7 @@ def student_form(request, student_code):
             student.tag_dislike_1 = tag_dislike_1
             student.save()
             messages.success(request, 'Form submission successful')
+            return redirect('matchingsystem:student_form', student_code)
     return render(request, 'matchingsystem/student.html', context)
 
 class StudentList(generic.ListView):
@@ -55,14 +56,12 @@ def project_form(request):
         form = ProjectForm(request.POST)
         if(form.is_valid()):
             model_instance = form.save(commit=False)
-            #model_instance.save()
+            model_instance.save()
             messages.success(request, 'Form submission successful')
             return redirect('matchingsystem:project_form')
     else:
         form = ProjectForm
-    context = {
-        'form': form
-    }
+    context = {'form': form}
     return render(request, 'matchingsystem/client.html', context)
 
 def start_matching(request):

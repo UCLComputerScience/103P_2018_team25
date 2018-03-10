@@ -35,7 +35,7 @@ class Module(models.Model):
     def __str__(self):
         return self.module_code
 
-class Student(models.Model): # Store all data and then bind csv row to this?
+class Student(models.Model):
     student_code = models.CharField(
             max_length=10,
             primary_key=True,
