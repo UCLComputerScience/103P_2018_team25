@@ -1,48 +1,14 @@
+{% block content %}
+
 <h1>Pages</h1>
 <a href="{% url 'matchingsystem:student_list' %}">Student page<a>
 </br>
 <a href="{% url 'matchingsystem:project_form' %}">Client form page<a>
 </br>
 <a href="/admin">Admin<a>
+</br>
+<a href="{% url 'ixn_auth:login' %}">
+<img border="0" alt="Sign in with UCl" src="https://s3.eu-west-2.amazonaws.com/uclapi-static/SignInWithUCLSmall.png">
+</a>
 
-<h1>Data</h1>
-{% if students %}
-    <p>Student List</p>
-    <ul>
-    {% for student in students %}
-        <li><p>{{student.student_code}}</p></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No students registered</p>
-{% endif %}
-{% if projects %}
-    <p>Project List</p>
-    <ul>
-    {% for project in projects %}
-        <li><p>{{project.project_title}}</p></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No projects registered</p>
-{% endif %}
-{% if tags %}
-    <p>Tag List</p>
-    <ul>
-    {% for tag in tags %}
-        <li><p>{{tag.tag_description}}</p></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No tags registered</p>
-{% endif %}
-{% if modules %}
-    <p>Module List</p>
-    <ul>
-    {% for module in modules %}
-        <li><p>{{module.module_code}}</p></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No modules registered</p>
-{% endif %}
+{% endblock %}

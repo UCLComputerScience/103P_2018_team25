@@ -25,13 +25,14 @@ SECRET_KEY = '%h!w6kqkmix6e1fyp7j=x_xsttip5zs^!ked*kcw%ygpw8+5al'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['nvgohztkjx.localtunnel.me', 'localhost'] # To allow localtunnel
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'matchingsystem.apps.MatchingsystemConfig',
+    'matchingsystem.apps.MatchingsystemConfig', # Add matching application
+    'ixn_auth.apps.AuthConfig', # Add custom logins
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

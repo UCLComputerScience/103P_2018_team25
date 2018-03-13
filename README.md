@@ -6,6 +6,7 @@ Applied Software Development application by team 25. The purpose of the project 
 Django 1.11.10
 MySQL Server
 mysqlclient 1.3.12 (Python module)
+requests (Python module)
 ```
 
 ## MySQL Database Setup

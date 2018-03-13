@@ -19,6 +19,7 @@ from matchingsystem import views
 
 urlpatterns = [
     url(r'^matchingsystem/', include('matchingsystem.urls')),
+    url(r'^auth/', include('ixn_auth.urls')),
     url(r'^admin/matchingsystem/matching/$', views.start_matching, name='matching'),
     url(r'^admin/matchingsystem/upload/$', views.upload_data, name='upload'),
     url(r'^admin/', admin.site.urls),
