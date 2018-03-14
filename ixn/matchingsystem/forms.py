@@ -11,7 +11,8 @@ MAX_TEAM_SIZE = 5
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['tag_like_1', 'tag_like_2', 'tag_like_3', 'tag_dislike_1']
+        fields = '__all__'
+        exclude = ['student_code', 'forename', 'surname', 'email', 'previous_leader', 'exam_results', 'student_modules']
         widgets = {
             'tag_like_1': forms.RadioSelect, # Use radio select widgets
             'tag_like_2': forms.RadioSelect,
@@ -19,7 +20,7 @@ class StudentForm(forms.ModelForm):
             'tag_dislike_1': forms.RadioSelect
         }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs): # Prevent null answers
         super(StudentForm, self).__init__(*args, **kwargs)
         self.fields['tag_like_1'].empty_label = None
         self.fields['tag_like_2'].empty_label = None

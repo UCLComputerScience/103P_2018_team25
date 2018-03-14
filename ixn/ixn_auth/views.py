@@ -41,7 +41,6 @@ def ucl_callback_url(request):
 
     user = authenticate(request, username=student_code, password='')
     if(user):
-        print('user exists')
         login(request, user) # Attach user to current session
     else:
         user = User.objects.create_user(student_code, password='') # Create a non accessible user account

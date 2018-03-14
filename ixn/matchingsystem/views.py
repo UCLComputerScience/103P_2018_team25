@@ -25,23 +25,16 @@ def student_form(request, student_code):
             'form': form,
             'student': student
         }
-        if(request.method == 'POST'):# TODO retry this code based on the project stuff
-            try:
-                tag_like_1 = Tag.objects.get(pk=request.POST['tag_like_1'])
-                tag_like_2 = Tag.objects.get(pk=request.POST['tag_like_2'])
-                tag_like_3 = Tag.objects.get(pk=request.POST['tag_like_3'])
-                tag_dislike_1 = Tag.objects.get(pk=request.POST['tag_dislike_1'])
+        if(request.method == 'POST'):
+            form = StudentForm(request.POST, instance=student)
+            if(form.is_valid()):
+                tag_like_1 = form.cleaned_data.get('tag_like_1')
+                tag_like_2 = form.cleaned_data.get('tag_like_2')
+                tag_like_3 = form.cleaned_data.get('tag_like_3')
+                tag_dislike_1 = form.cleaned_data.get('tag_dislike_1')
                 options = [tag_like_1, tag_like_2, tag_like_3, tag_dislike_1]
-            except(KeyError, Tag.DoesNotExist):
-                messages.error(request, 'Invalid tag chosen!')
-                return render(request, 'matchingsystem/student.html', context)
-            else:
                 if(options_unique(options)):
-                    student.tag_like_1 = tag_like_1
-                    student.tag_like_2 = tag_like_2
-                    student.tag_like_3 = tag_like_3
-                    student.tag_dislike_1 = tag_dislike_1
-                    student.save()
+                    form.save()
                     messages.success(request, 'Interest submission successful')
                     return redirect('matchingsystem:student_form', student_code)
                 else:
