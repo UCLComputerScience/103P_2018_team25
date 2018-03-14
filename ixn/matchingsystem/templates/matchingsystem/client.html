@@ -1,16 +1,21 @@
-<h1>Client Form</h1>
+{% block content %}
 
-<form method="post" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit"/>
-    <input type="button" value="Back" onclick="window.location='{% url 'matchingsystem:index' %}'"/>
-</form>
+<h1>Client Landing Page</h1>
+<p>Username: {{ username }}</p>
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+{% if project_list %}
+    <ul>
+      {% for project in project_list %}
+      <li>
+        <p>Title: {{ project.project_title }} Approved? {{ project.project_valid }}</p>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>There are no projects registered.</p>
+    {% endif %}
+    <input type="button" value="Add Project" onclick="window.location='{% url 'matchingsystem:project_form' %}'"/> 
+    <input type="button" value="Logout" onclick="window.location='{% url 'ixn_auth:logout' %}'"/>     
+
+{% endblock %}

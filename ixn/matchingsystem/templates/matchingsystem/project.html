@@ -1,13 +1,10 @@
-<h1>Student Form</h1>
-<p>Student Code: {{ student.student_code }}</p>
-<p>Surname: {{ student.surname }}</p>
-<p>Forename: {{ student.forename }}</p>
+<h1>Client Form</h1>
 
 <form method="post" action="">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit"/>
-    <input type="button" value="Logout" onclick="window.location='{% url 'ixn_auth:logout' %}'"/>
+    <input type="button" value="Back" onclick="window.location='{{ back_url }}'"/>
 </form>
 
 {% if messages %}

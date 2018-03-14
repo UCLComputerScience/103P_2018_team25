@@ -2,12 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.urls import reverse
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from .models import Student, Project, Tag, Module
 from .forms import StudentForm, ProjectForm, MatchingForm, UploadForm
 
 def index(request):
     return render(request, 'matchingsystem/index.html')
+
+def check_not_student(username):
+    try:
+        float(username)
+        return False
+    except ValueError:
+        return True
 
 def student_form(request, student_code):
     # Only allow a student to edit their form
@@ -18,7 +25,7 @@ def student_form(request, student_code):
             'form': form,
             'student': student
         }
-        if(request.method == 'POST'):
+        if(request.method == 'POST'):# TODO retry this code based on the project stuff
             try:
                 tag_like_1 = Tag.objects.get(pk=request.POST['tag_like_1'])
                 tag_like_2 = Tag.objects.get(pk=request.POST['tag_like_2'])
@@ -48,25 +55,39 @@ def options_unique(options):
         return True
     return False
 
-class StudentList(generic.ListView): # Remove when permissions are verified
-    model = Student
-    context_object_name = 'student_list'
-    queryset = Student.objects.all()[:10] # Show 10 recent students for now
-    template_name = 'matchingsystem/student_list.html'
+def client_page(request, username):
+    if(request.user.is_authenticated() and request.user.get_username() == username and check_not_student(request.user.username)):
+        project_list = Project.objects.all().filter(project_user=request.user)
+        context = {
+            'project_list': project_list,
+            'username': username,
+        }
+        return render(request, 'matchingsystem/client.html', context)
+    else:
+        return redirect('matchingsystem:index')
 
 def project_form(request):
-    if(request.method == 'POST'):
-        form = ProjectForm(request.POST)
-        if(form.is_valid()):
-            model_instance = form.save(commit=False)
-            model_instance.save()
-            messages.success(request, 'Project submission successful')
-            return redirect('matchingsystem:project_form')
+    if(request.user.is_authenticated() and check_not_student(request.user.username)):
+        if(request.method == 'POST'):
+            form = ProjectForm(request.POST)
+            if(form.is_valid()):
+                project = form.save(commit=False)
+                project.project_user = request.user
+                project.save()
+                messages.success(request, 'Project submission successful')
+                return redirect('matchingsystem:project_form')
+        else:
+            form = ProjectForm
+        back_url = reverse('matchingsystem:client', args=[str(request.user.username)])
+        context = {
+            'form': form,
+            'back_url': back_url # To allow the user back to their landing page
+        }
+        return render(request, 'matchingsystem/project.html', context)
     else:
-        form = ProjectForm
-    context = {'form': form}
-    return render(request, 'matchingsystem/client.html', context)
+        return redirect('matchingsystem:index')
 
+@staff_member_required
 def start_matching(request):
     if(request.method == 'POST'):
         form = MatchingForm(request.POST)
@@ -79,6 +100,7 @@ def start_matching(request):
     context = {"form": form}
     return render(request, 'admin/matching.html', context)
 
+@staff_member_required
 def upload_data(request):
     if(request.method == 'POST'):
         form = UploadForm(request.POST, request.FILES)

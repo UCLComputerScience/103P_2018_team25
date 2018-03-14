@@ -30,7 +30,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
-        exclude = ['project_tags', 'project_complexity', 'project_module', 'project_valid']
+        exclude = ['project_tags', 'project_complexity', 'project_module', 'project_valid', 'project_user']
 
 # Forms for custom admin views
 

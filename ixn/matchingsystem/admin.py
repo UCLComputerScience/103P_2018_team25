@@ -15,12 +15,12 @@ class StudentAdmin(admin.ModelAdmin):
     filter_horizontal = ('student_modules',)
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('project_title', 'project_module', 'project_valid')
-    list_filter = ['project_module', 'project_tags', 'project_valid']
-    search_fields = ['project_title']
+    list_display = ('project_title', 'project_module', 'project_valid', 'project_user')
+    list_filter = ['project_module', 'project_tags', 'project_valid', 'project_user']
+    search_fields = ['project_title', 'project_user']
 
     fieldsets = [
-        ('Project Information', {'fields': ['project_title', 'project_background', 'project_objectives', 'project_description', 'project_dataset', 'project_resources', 'project_mentors']}),
+        ('Project Information', {'fields': ['project_title', 'project_background', 'project_objectives', 'project_description', 'project_dataset', 'project_resources', 'project_mentors', 'project_user']}),
         ('Matching Information', {'fields': ['project_valid', 'project_tags', 'project_module', 'project_complexity']}),
     ]
     filter_horizontal = ('project_tags',)

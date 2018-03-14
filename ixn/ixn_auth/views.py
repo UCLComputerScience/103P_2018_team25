@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.urls import reverse
 from uuid import uuid4
 from requests import get
 from urllib.parse import urlencode
 from matchingsystem.models import Student
+from .forms import ClientSignUp
 
 def ucl_login(request):
     return redirect(get_authorisation_url(request))
@@ -77,3 +80,41 @@ def get_student_code(request, code, state):
 
 def ucl_logout(request):
     logout(request) # Detatch user from session
+    return redirect('matchingsystem:index')
+
+def client_signup(request):
+    if(request.method == 'POST'):
+        form = ClientSignUp(request.POST)
+        if(form.is_valid()):
+            form.save()
+#client.first_name = request.POST['first_name']
+#client.last_name = request.POST['last_name']
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect(reverse('matchingsystem:client', args=[str(username)]))
+    else:
+        form = ClientSignUp()
+    context = {
+        'form': form
+    }
+    return render(request, 'ixn_auth/signup.html', context)
+
+def client_login(request):
+    if(request.method == 'POST'):
+        form = AuthenticationForm(data=request.POST)
+        if(form.is_valid()):
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect(reverse('matchingsystem:client', args=[str(username)]))
+    else:
+        form = AuthenticationForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'ixn_auth/login.html', context)
+
+

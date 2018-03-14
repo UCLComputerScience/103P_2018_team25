@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from decimal import Decimal
 
@@ -129,6 +130,7 @@ class Project(models.Model):
     project_module = models.ForeignKey(
             Module,
             on_delete=models.CASCADE,
+            null=True,
             help_text='The module the project is to be matched with')
     project_tags = models.ManyToManyField(
             'Tag',
@@ -136,6 +138,12 @@ class Project(models.Model):
     project_valid = models.BooleanField(
             default=False,
             help_text='Is the project suitable for matching')
+
+    # This field is needed to relate a client user to projects they own
+    project_user = models.ForeignKey(
+            settings.AUTH_USER_MODEL,
+            on_delete=models.CASCADE,
+            null=True)
 
     def __str__(self):
         return self.project_title

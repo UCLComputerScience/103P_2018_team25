@@ -1,13 +1,12 @@
 {% block content %}
 
 <h1>Pages</h1>
-<a href="{% url 'matchingsystem:student_list' %}">Student page<a>
+<a href="{% url 'ixn_auth:client_login' %}">Client login<a>
 </br>
-<a href="{% url 'matchingsystem:project_form' %}">Client form page<a>
+<a href="{% url 'ixn_auth:client_signup' %}">Client signup<a>
 </br>
-<a href="/admin">Admin<a>
-</br>
-<a href="{% url 'ixn_auth:login' %}">
+<p>Student Login:</p>
+<a href="{% url 'ixn_auth:student_login' %}">
 <img border="0" alt="Sign in with UCl" src="https://s3.eu-west-2.amazonaws.com/uclapi-static/SignInWithUCLSmall.png">
 </a>
 
