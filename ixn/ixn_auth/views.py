@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.urls import reverse
 from uuid import uuid4
 from requests import get
 from urllib.parse import urlencode
 from matchingsystem.models import Student
 from .forms import ClientSignUp
+
+def error_page(request):
+    return render(request, 'ixn_auth/error.html')
 
 def ucl_login(request):
     return redirect(get_authorisation_url(request))
@@ -29,15 +32,15 @@ def ucl_callback_url(request):
     if(state != request.session.get('state')): # Check for CSFR attacks
         raise Exception('Invalid OAuth state')
     if(code):
-        student_code = get_student_code(request, code, state)
+        student_code = get_student_code(request, code)
         try:
             student = Student.objects.get(pk=student_code) # Get student
         except KeyError:
-            raise Exception('Not available for matching')
-            # TODO Redirect to error page here? Otherwise create a student account
+            request.session['state'] = None
+            return redirect('ixn_auth:error_page')
         except Student.DoesNotExist:
-            raise Exception('Not available for matching')
-            # Redirect here as well - Student not available in modules for matching
+            request.session['state'] = None
+            return redirect('ixn_auth:error_page')
 
     user = authenticate(request, username=student_code, password='')
     if(user):
@@ -47,10 +50,13 @@ def ucl_callback_url(request):
         user.save()
         login(request, user)
 
+    student_group, created = Group.objects.get_or_create(name='Students')
+    student_group.user_set.add(user)
+
     request.session['state'] = None
     return redirect(student.get_absolute_url())
 
-def get_student_code(request, code, state):
+def get_student_code(request, code):
     token_params = { # These are the parameters required for UCL API
         'client_id': '3191669878317281.9925116223526035', 
         'code': code,
@@ -58,6 +64,8 @@ def get_student_code(request, code, state):
     }
     token_url = 'https://uclapi.com/oauth/token'
     r_token = get(token_url, params=token_params).json()
+    state = r_token['state']
+
     if(state != request.session.get('state')): # Check for CSFR attacks
         raise Exception('Invalid OAuth state')
 
@@ -67,12 +75,8 @@ def get_student_code(request, code, state):
 
     }
     user_data_url = 'https://uclapi.com/oauth/user/studentnumber'
-    r_user_data = get(user_data_url, params = user_params)
+    r_user_data = get(user_data_url, params = user_params).json()
 
-    if(state != request.session.get('state')):
-        raise Exception('Invalid OAuth state')
-
-    r_user_data = r_user_data.json() # Json file of student data
     student_code = r_user_data['student_number']
 
     return student_code[1:] # Student code should be 8 digits not 9
@@ -86,12 +90,11 @@ def client_signup(request):
         form = ClientSignUp(request.POST)
         if(form.is_valid()):
             form.save()
-#client.first_name = request.POST['first_name']
-#client.last_name = request.POST['last_name']
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
+            add_client_to_group(user)
             return redirect(reverse('matchingsystem:client', args=[str(username)]))
     else:
         form = ClientSignUp()
@@ -108,6 +111,7 @@ def client_login(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             login(request, user)
+            add_client_to_group(user)
             return redirect(reverse('matchingsystem:client', args=[str(username)]))
     else:
         form = AuthenticationForm()
@@ -116,4 +120,6 @@ def client_login(request):
     }
     return render(request, 'ixn_auth/login.html', context)
 
-
+def add_client_to_group(user): # Add client to the correct group
+    client_group, created = Group.objects.get_or_create(name='Clients')
+    client_group.user_set.add(user)

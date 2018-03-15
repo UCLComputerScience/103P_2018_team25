@@ -25,7 +25,7 @@ SECRET_KEY = '%h!w6kqkmix6e1fyp7j=x_xsttip5zs^!ked*kcw%ygpw8+5al'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['xgdezvjxll.localtunnel.me', 'localhost'] # To allow localtunnel
+ALLOWED_HOSTS = ['brihcxruis.localtunnel.me', 'localhost'] # To allow localtunnel
 
 ## IXN MATCHING
 LOGIN_REDIRECT_URL = 'matchingsystem:client'

@@ -142,6 +142,7 @@ class Project(models.Model):
     # This field is needed to relate a client user to projects they own
     project_user = models.ForeignKey(
             settings.AUTH_USER_MODEL,
+            related_name='project_user',
             on_delete=models.CASCADE,
             null=True)
 
