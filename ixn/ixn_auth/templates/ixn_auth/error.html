@@ -1,3 +1,6 @@
 {% block content %}
+
 <p>You are not currently enrolled in any modules with IXN projects!<p>
+<input type="button" value="Logout" onclick="window.location='{% url 'ixn_auth:logout' %}'"/>     
+
 {% endblock %}
