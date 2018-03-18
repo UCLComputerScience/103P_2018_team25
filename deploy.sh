@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export STATIC_ROOT="$DEPLOYMENT_TARGET/static"
+
 function python () {
   "/d/home/python364x64/python.exe" "$@"
 }
@@ -14,7 +16,7 @@ python ixn/manage.py collectstatic --noinput --clear
 
 echo "Cleaning up deployment target"
 
-rm -r $DEPLOYMENT_TARGET/ssig_site
+rm -r $DEPLOYMENT_TARGET/ixn
 
 echo "Running migrations"
 
