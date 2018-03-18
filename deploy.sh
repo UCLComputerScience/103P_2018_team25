@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-export STATIC_ROOT="$DEPLOYMENT_TARGET/static"
-
 function python () {
   "/d/home/python364x64/python.exe" "$@"
 }
@@ -12,17 +10,21 @@ python -m pip install -r requirements.txt -q
 
 echo "Collecting static files"
 
-python ixn/manage.py collectstatic --noinput --clear
+python manage.py collectstatic --noinput
 
 echo "Cleaning up deployment target"
 
 rm -r $DEPLOYMENT_TARGET/ixn
+rm -r $DEPLOYMENT_TARGET/static
 
 echo "Running migrations"
 
-python ixn/manage.py migrate
+python manage.py migrate
 
 echo "Copying files to deployment target"
 
 cp -R ixn $DEPLOYMENT_TARGET/
+cp -R ixn_auth $DEPLOYMENT_TARGET/
+cp -R matchingsystem $DEPLOYMENT_TARGET/
+cp -R static $DEPLOYMENT_TARGET/
 cp web.config $DEPLOYMENT_TARGET/
