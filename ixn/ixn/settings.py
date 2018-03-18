@@ -85,11 +85,11 @@ DATABASES = {
         'USER': 'matching_db_user@ixn-matching-system',
         'PASSWORD': 'ixn-system-2018',
         'HOST': 'ixn-matching-system.mysql.database.azure.com',
-        'PORT': '3306'
-    },
-    'OPTIONS': {
-        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-    },
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
+    }
 }
 
 
