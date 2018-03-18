@@ -10,7 +10,7 @@ python -m pip install -r requirements.txt -q
 
 echo "Running migrations"
 
-python manage.py migrate
+python ixn/manage.py migrate
 
 echo "Copying files to deployment target"
 
