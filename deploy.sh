@@ -14,5 +14,4 @@ python ixn/manage.py migrate
 
 echo "Copying files to deployment target"
 
-cp -R ixn $DEPLOYMENT_TARGET/
 cp web.config $DEPLOYMENT_TARGET/
