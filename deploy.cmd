@@ -79,19 +79,21 @@ pushd "%DEPLOYMENT_TARGET%"
    IF !ERRORLEVEL! NEQ 0 goto error
  ) ELSE (
    echo Found compatible virtual environment.
+   env\Scripts\python.exe -m pip install --upgrade pip
  )
 
 
 :: 3. Install packages
 echo Pip install requirements.
 env\Scripts\python.exe -m pip install --upgrade -r requirements.txt
-IF !ERRORLEVEL! NEQ 0 goto error
 
 echo Running migrations
 env\Scripts\python.exe manange.py migrate
 
 echo Starting Django
 env\Scripts\python.exe manage.py runserver
+
+IF !ERRORLEVEL! NEQ 0 goto error
 
 popd
 
