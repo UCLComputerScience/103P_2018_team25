@@ -11,24 +11,30 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+SECRET_KEY = config('SECRET_KEY')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%h!w6kqkmix6e1fyp7j=x_xsttip5zs^!ked*kcw%ygpw8+5al'
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast = lambda v: [s.strip() for s in v.split(',')])
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['ixn-matching-system.azurewebsites.net', 'localhost']
-
-## IXN MATCHING
+# IXN Matching
 LOGIN_REDIRECT_URL = 'matchingsystem:client'
+
+# Deployment
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', cast=bool)
+
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', cast=bool)
+
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', cast=bool)
+
+X_FRAME_OPTIONS = config('X_FRAME_OPTIONS')
+
+SECURE_BROWSER_XSS_FILTER = config('SECURE_BROWSER_XSS_FILTER', cast=bool)
 
 
 # Application definitiontest
@@ -82,11 +88,11 @@ WSGI_APPLICATION = 'ixn.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'matching_db',
-        'USER': 'matching_db_user',
-        'PASSWORD': 'matching_db_password',
-        'HOST': 'localhost',
-        'PORT': '0',
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
+        'PORT': config('DATABASE_PORT', cast=int),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         }

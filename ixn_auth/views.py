@@ -8,6 +8,7 @@ from requests import get
 from urllib.parse import urlencode
 from matchingsystem.models import Student
 from .forms import ClientSignUp
+from decouple import config
 
 def error_page(request):
     message = request.session.get('error_message') # Pass custom messages to this page
@@ -26,10 +27,10 @@ def get_authorisation_url(request): # Returns the URL for UCL API login
     state = str(uuid4())
     request.session['state'] = state # Store to mitigate CSRF attacks
     params = {
-        'client_id': '3191669878317281.9925116223526035', # TODO store securely
+        'client_id': config('UCL_API_CLIENT_ID'),
         'state': state
     }
-    authorisation_url = 'https://uclapi.com/oauth/authorise?' + urlencode(params) # TODO store url somewhere
+    authorisation_url = 'https://uclapi.com/oauth/authorise?' + urlencode(params)
     return authorisation_url
 
 def ucl_callback_url(request):
@@ -71,9 +72,9 @@ def ucl_callback_url(request):
 
 def get_student_code(request, code):
     token_params = { # These are the parameters required for UCL API
-        'client_id': '3191669878317281.9925116223526035', 
+        'client_id': config('UCL_API_CLIENT_ID'), 
         'code': code,
-        'client_secret': '3089442b13bfd0f2ebe924c77d348da644d62a8a56c11aedf3560fee46fda04b'
+        'client_secret': config('UCL_API_CLIENT_SECRET')
     }
     token_url = 'https://uclapi.com/oauth/token'
     r_token = get(token_url, params=token_params).json()
