@@ -82,10 +82,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'matching_db',
-        'USER': 'matching_db_user@ixn-matching-system',
-        'PASSWORD': 'ixn-system-2018',
-        'HOST': 'ixn-matching-system.mysql.database.azure.com',
-        'PORT': '3306',
+        'USER': 'matching_db_user',
+        'PASSWORD': 'matching_db_password',
+        'HOST': 'localhost',
+        'PORT': '0',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         }
