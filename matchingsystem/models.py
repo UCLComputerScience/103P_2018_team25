@@ -120,6 +120,9 @@ class Project(models.Model):
     project_mentors = models.CharField(
             max_length=500,
             help_text='Names of mentors')
+    project_due_date = models.DateField(
+            help_text='The date the project must be completed by'
+            )
 
     # These fields are needed for matching - filled in by admin
     project_complexity = models.IntegerField(
@@ -142,6 +145,7 @@ class Project(models.Model):
     # This field is needed to relate a client user to projects they own
     project_user = models.ForeignKey(
             settings.AUTH_USER_MODEL,
+            help_text='The client who created the project',
             related_name='project_user',
             on_delete=models.CASCADE,
             null=True)

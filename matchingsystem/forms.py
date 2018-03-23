@@ -1,10 +1,12 @@
 from django import forms
 from django.contrib import messages
-import csv, io
+import csv, io, datetime
+from functools import partial
 from .models import Student, Project, Module
 from .matching import start_matching_algorithm
 
 MAX_TEAM_SIZE = 5
+DateInput = partial(forms.DateInput, {'class': 'datepicker'})
 
 # Forms for data input
 
@@ -32,6 +34,16 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = '__all__'
         exclude = ['project_tags', 'project_complexity', 'project_module', 'project_valid', 'project_user']
+        widgets = {
+            'project_due_date': DateInput(),
+        }
+
+    def clean_project_due_date(self): 
+        # To ensure dates are only selected in the future
+        date = self.cleaned_data['project_due_date']
+        if(date <= datetime.date.today()):
+            raise forms.ValidationError('The due date must be in the future')
+        return date
 
 # Forms for custom admin views
 

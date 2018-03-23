@@ -20,7 +20,7 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ['project_title', 'project_user']
 
     fieldsets = [
-        ('Project Information', {'fields': ['project_title', 'project_background', 'project_objectives', 'project_description', 'project_dataset', 'project_resources', 'project_mentors', 'project_user']}),
+        ('Project Information', {'fields': ['project_title', 'project_background', 'project_objectives', 'project_description', 'project_dataset', 'project_resources', 'project_mentors', 'project_user', 'project_due_date']}),
         ('Matching Information', {'fields': ['project_valid', 'project_tags', 'project_module', 'project_complexity']}),
     ]
     filter_horizontal = ('project_tags',)
