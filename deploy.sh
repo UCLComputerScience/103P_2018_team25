@@ -19,6 +19,7 @@ rm -r $DEPLOYMENT_TARGET/static
 
 echo "Running migrations"
 
+python manage.py makemigrations
 python manage.py migrate
 
 echo "Creating default superuser"
