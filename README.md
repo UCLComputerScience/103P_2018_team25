@@ -5,10 +5,13 @@ Applied Software Development application by team 25. The purpose of the project 
 1. Clone this repository with: `git clone git@github.com:UCLComputerScience/103P_2018_team25.git`
 2. Install prerequisites
 3. Follow the MySQL database setup
-4. Setup environment variables
-5. Run the Django server with: `python3 manage.py runserver`
-6. Load the site at: 127.0.0.1:8000
-7. Create a superuser to access admin page at `/admin`
+4. Follow the environment variables setup
+5. Make the relevant migrations with: `python3 manage.py makemigrations`
+6. Apply the relevant migrations with: `python3 manage.py migrate`
+7. Collect static files with : `python3 manage.py collectstatic`
+8. Run the Django server with: `python3 manage.py runserver`
+9. Load the site at: `127.0.0.1:8000`
+10. Create a superuser to access admin page at `127.0.0.1:8000/admin`
 
 ## Prerequisites
 ```
@@ -17,6 +20,8 @@ MySQL Server
 mysqlclient 1.3.12 (Python module)
 requests (Python module)
 python-decouple (Python module)
+django-tables2 (Python module)
+tablib 0.11.4 (Python module)
 ```
 
 ## MySQL Database Setup
