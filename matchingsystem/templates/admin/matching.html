@@ -12,6 +12,7 @@ Matching
 {% endblock %}
 
 {% block content %}
+
 <div id="content-main">
     <form method="post" action="">
         {% csrf_token %}
@@ -19,5 +20,8 @@ Matching
         <input type="submit" value="Match Students"/>
         <input type="button" value="Back" onclick="window.location='/admin/matchingsystem'"/>
     </form>
+
 </div>
+
 {% endblock %}
+

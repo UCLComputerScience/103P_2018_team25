@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^', include('matchingsystem.urls')),
     url(r'^auth/', include('ixn_auth.urls')),
     url(r'^admin/matchingsystem/matching/$', views.start_matching, name='matching'),
+    url(r'^admin/matchingsystem/result/$', views.post_list, name='result'),
     url(r'^admin/matchingsystem/upload/$', views.upload_data, name='upload'),
     url(r'^admin/', admin.site.urls),
 ]

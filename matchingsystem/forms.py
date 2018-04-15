@@ -3,7 +3,9 @@ from django.contrib import messages
 import csv, io, datetime
 from functools import partial
 from .models import Student, Project, Module
-from .matching import start_matching_algorithm
+from .matching import module_matching, matchpool, tag_counters, size_checker
+from django.shortcuts import render, redirect, get_object_or_404
+
 
 MAX_TEAM_SIZE = 5
 DateInput = partial(forms.DateInput, {'class': 'datepicker'})
@@ -38,7 +40,7 @@ class ProjectForm(forms.ModelForm):
             'project_due_date': DateInput(),
         }
 
-    def clean_project_due_date(self): 
+    def clean_project_due_date(self):
         # To ensure dates are only selected in the future
         date = self.cleaned_data['project_due_date']
         if(date <= datetime.date.today()):
@@ -58,8 +60,16 @@ class MatchingForm(forms.Form):
     def save(self):
         selected_module = self.cleaned_data['module']
         selected_team_size = self.cleaned_data['team_size']
-        start_matching_algorithm(selected_module, selected_team_size)
-        
+        if size_checker == 3:
+            print("dont show me")
+            module_matching(selected_module, selected_team_size)
+        elif size_checker == 2:
+            print("case 2")
+            return redirect('result')
+        else:
+            return redirect('result')
+            print("case 1")
+
 class UploadForm(forms.Form):
     student_data = forms.FileField(
             validators=[validate_file_extension],
@@ -98,7 +108,7 @@ class UploadForm(forms.Form):
                 continue
             student.save()
             student.student_modules.add(module)
-        
+
     def add_exams(self, f, request):
         csv_file = self.get_file_for_read(f)
         STUDENT_CODE_COL = 0 # Column numbers from spreadsheet template

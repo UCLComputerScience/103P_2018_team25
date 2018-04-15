@@ -3,8 +3,12 @@ from django.views import generic
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import Student, Project, Tag, Module
+from .models import Student, Project, Tag, Module, Project_assignment
 from .forms import StudentForm, ProjectForm, MatchingForm, UploadForm
+from django.template.response import TemplateResponse
+from .tables import ResultTable
+from django_tables2 import RequestConfig
+from django_tables2.export.export import TableExport
 
 def index(request):
     return render(request, 'matchingsystem/index.html')
@@ -107,3 +111,15 @@ def upload_data(request):
         form = UploadForm
     context = {"form": form}
     return render(request, 'admin/upload.html', context)
+
+@staff_member_required
+def post_list(request):
+    table = ResultTable(Project_assignment.objects.all())
+    RequestConfig(request).configure(table)
+
+    export_format = request.GET.get('_export', None)
+    if TableExport.is_valid_format(export_format):
+        exporter = TableExport(export_format, table)
+        return exporter.response('table.{}'.format(export_format))
+
+    return render(request, 'admin/result.html', {'table':table})

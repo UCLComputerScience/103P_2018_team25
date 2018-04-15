@@ -10,7 +10,7 @@ class StudentAdmin(admin.ModelAdmin):
 
     fieldsets = [
         ('Student Information', {'fields': ['student_code', 'forename', 'surname', 'email', 'exam_results', 'student_modules']}),
-        ('Matching Information', {'fields': ['tag_like_1', 'tag_like_2', 'tag_like_3', 'tag_dislike_1', 'previous_leader']}),
+        ('Matching Information', {'fields': ['tag_like_1', 'tag_like_2', 'tag_like_3', 'tag_dislike_1', 'gender', 'previous_leader']}),
     ]
     filter_horizontal = ('student_modules',)
 

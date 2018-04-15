@@ -10,7 +10,7 @@ from decimal import Decimal
 MAX_TEAM_LEADER = 3
 MAX_PROJECT_COMPLEXITY = 5
 
-def get_integer_choices(start, finish): 
+def get_integer_choices(start, finish):
     # Generates a drop down for integer fields with a range
     choices = []
     for i in range(start, finish + 1):
@@ -50,6 +50,10 @@ class Student(models.Model):
     email = models.CharField(
             max_length=100,
             help_text='Student Email')
+    gender = models.CharField(
+              max_length=1,
+              choices = (('M', 'Male'), ('F', 'Female')),
+              null=True,)
     previous_leader = models.IntegerField(
             choices=get_integer_choices(0, MAX_TEAM_LEADER),
             default=0,
@@ -95,6 +99,16 @@ class Student(models.Model):
 
     def __str__(self):
         return self.surname + ", " + self.forename
+
+class leaders(Student):
+    assigned = models.IntegerField(
+        default=0,
+        choices=get_integer_choices(0, 1),)
+
+class members(Student):
+    assigned = models.IntegerField(
+        default=0,
+        choices=get_integer_choices(0, 1),)
 
 class Project(models.Model):
     # Uses default primary key (id)
@@ -152,3 +166,19 @@ class Project(models.Model):
 
     def __str__(self):
         return self.project_title
+
+class Female(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,null=True)
+
+class Leader(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+
+class Project_assignment(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
+    group_leader = models.IntegerField(
+        default=0,
+        choices=get_integer_choices(0, 1),)
+    module = models.ManyToManyField(
+            'Module',
+            help_text='Modules the student is enrolled in')
