@@ -10,7 +10,14 @@ from matchingsystem.models import Student
 from .forms import ClientSignUp
 
 def error_page(request):
-    return render(request, 'ixn_auth/error.html')
+    message = request.session.get('error_message')
+    if(message == None):
+        message = 'Sorry, there has been an error! Please try again.'
+    request.session['error_message'] = None
+    context = {
+        'error_message': message
+    }
+    return render(request, 'ixn_auth/error.html', context)
 
 def ucl_login(request):
     return redirect(get_authorisation_url(request))
@@ -28,7 +35,11 @@ def get_authorisation_url(request):
 def ucl_callback_url(request):
     state = request.GET.get('state')
     code = request.GET.get('code')
+    result = request.GET.get('result')
 
+    if(result == 'denied'): # User did not verify the app on UCL API
+        request.session['error_message'] = "Please allow access through UCL API to use this application!"
+        return redirect('ixn_auth:error_page')
     if(state != request.session.get('state')): # Check for CSFR attacks
         raise Exception('Invalid OAuth state')
     if(code):
@@ -37,9 +48,11 @@ def ucl_callback_url(request):
             student = Student.objects.get(pk=student_code) # Get student
         except KeyError:
             request.session['state'] = None
+            request.session['error_message'] = "You are not currently enrolled in any modules with IXN projects! Please contact your department if this is an error."
             return redirect('ixn_auth:error_page')
         except Student.DoesNotExist:
             request.session['state'] = None
+            request.session['error_message'] = "You are not currently enrolled in any modules with IXN projects! Please contact your department if this is an error."
             return redirect('ixn_auth:error_page')
 
     user = authenticate(request, username=student_code, password='')

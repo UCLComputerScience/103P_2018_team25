@@ -124,7 +124,7 @@ img.emoji {
 		<div class="container">
 			<div class ="row">
 				<div class="col-12">
-					<span class="section-divider">Client Sign Up</span>
+					<span class="section-divider">Error</span>
 				</div>
 			</div>
 			
@@ -134,7 +134,7 @@ img.emoji {
 				<div class="col-lg-8 aboutBox">
 					<div class="profile-box" id="aboutPageProfile">
                         <img src="{% static 'warning.png' %}" width="180" height="180">
-                        <p class="aboutPageText">You are not currently enrolled in any modules with IXN projects!<p>
+                        <p class="aboutPageText">{{ error_message }}<p>
 
                         <div class="row">
                             <div class="col-lg-12 buttonRow">
