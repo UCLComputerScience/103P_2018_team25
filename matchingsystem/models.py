@@ -51,9 +51,10 @@ class Student(models.Model):
             max_length=100,
             help_text='Student Email')
     gender = models.CharField(
-              max_length=1,
-              choices = (('M', 'Male'), ('F', 'Female')),
-              null=True,)
+            max_length=1,
+            choices = (('M', 'Male'), ('F', 'Female')),
+            help_text='Student Gender',
+            null=True,)
     previous_leader = models.IntegerField(
             choices=get_integer_choices(0, MAX_TEAM_LEADER),
             default=0,
