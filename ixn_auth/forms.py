@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
-class ClientSignUp(UserCreationForm):
+class ClientSignUp(UserCreationForm): # Custom client signup form to prevent student numbers as their username
     first_name = forms.CharField(
             required=False,
             max_length=30,

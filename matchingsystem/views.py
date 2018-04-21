@@ -31,7 +31,7 @@ def student_form(request, student_code):
         }
         if(request.method == 'POST'):
             form = StudentForm(request.POST, instance=student)
-            if(form.is_valid()):
+            if(form.is_valid()): # If all the data has been filled in, validate and save to database
                 tag_like_1 = form.cleaned_data.get('tag_like_1')
                 tag_like_2 = form.cleaned_data.get('tag_like_2')
                 tag_like_3 = form.cleaned_data.get('tag_like_3')
@@ -54,7 +54,7 @@ def options_unique(options):
 
 def client_page(request, username):
     if(request.user.is_authenticated() and request.user.get_username() == username and check_not_student(request.user.username)):
-        project_list = Project.objects.all().filter(project_user=request.user)
+        project_list = Project.objects.all().filter(project_user=request.user) # Pass list of projects created by the user to the view
         context = {
             'project_list': project_list,
             'username': username,
@@ -83,6 +83,8 @@ def project_form(request):
         return render(request, 'matchingsystem/project.html', context)
     else:
         return redirect('matchingsystem:index')
+
+# Custom admin views to process student data with the matching algorithm
 
 @staff_member_required
 def start_matching(request):

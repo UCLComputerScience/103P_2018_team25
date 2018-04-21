@@ -318,13 +318,3 @@ def lists_generator(student_list):
 	return two_lists
     # going to need: students, projects, tags
    
-# Whole structure of algorithm defined in here
-# will need to validate there is enough students, projects, team leaders etc
-# will need to validate that all data required has been inputted to database for the chosen module
-# will need to validate that students have filled in their part
-# will just redirect to a page telling the error that has occured
-
-# this changes depending on if the teams are of size 1, if they are size 1
-# then don't need to allocate leaders just do normal matching algorithm
-
-

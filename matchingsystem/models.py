@@ -5,7 +5,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from decimal import Decimal
 
 # These are the models to define database structure (tables, relationships)
-# TODO lengths of char fields
 
 MAX_TEAM_LEADER = 3
 MAX_PROJECT_COMPLEXITY = 5
@@ -118,19 +117,19 @@ class Project(models.Model):
             max_length=200,
             help_text='A question or problem')
     project_background = models.CharField(
-            max_length=500,
+            max_length=1000,
             help_text='Description of your company and its background')
     project_objectives = models.CharField(
-            max_length=500,
+            max_length=1000,
             help_text='One line version of the project objectives')
     project_description = models.CharField(
-            max_length=500,
+            max_length=1000,
             help_text='Details of the project')
     project_dataset = models.CharField(
-            max_length=500,
+            max_length=1000,
             help_text='Descriptions of the dataset to be used')
     project_resources = models.CharField(
-            max_length=500,
+            max_length=1000,
             help_text='Any additional resources that might be of interest')
     project_mentors = models.CharField(
             max_length=500,
@@ -167,6 +166,8 @@ class Project(models.Model):
 
     def __str__(self):
         return self.project_title
+
+# These models are needed for the matching algorithm
 
 class Female(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,null=True)

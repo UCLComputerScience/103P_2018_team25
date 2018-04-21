@@ -10,7 +10,7 @@ from matchingsystem.models import Student
 from .forms import ClientSignUp
 
 def error_page(request):
-    message = request.session.get('error_message')
+    message = request.session.get('error_message') # Pass custom messages to this page
     if(message == None):
         message = 'Sorry, there has been an error! Please try again.'
     request.session['error_message'] = None
@@ -22,7 +22,7 @@ def error_page(request):
 def ucl_login(request):
     return redirect(get_authorisation_url(request))
 
-def get_authorisation_url(request):
+def get_authorisation_url(request): # Returns the URL for UCL API login
     state = str(uuid4())
     request.session['state'] = state # Store to mitigate CSRF attacks
     params = {
@@ -63,7 +63,7 @@ def ucl_callback_url(request):
         user.save()
         login(request, user)
 
-    student_group, created = Group.objects.get_or_create(name='Students')
+    student_group, created = Group.objects.get_or_create(name='Students') # Add student to the 'Students' user group
     student_group.user_set.add(user)
 
     request.session['state'] = None
@@ -100,14 +100,14 @@ def ucl_logout(request):
 
 def client_signup(request):
     if(request.method == 'POST'):
-        form = ClientSignUp(request.POST)
+        form = ClientSignUp(request.POST) # Use custom sign up view
         if(form.is_valid()):
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            add_client_to_group(user)
+            add_client_to_group(user) # Add client to the 'Client' user group
             return redirect(reverse('matchingsystem:client', args=[str(username)]))
     else:
         form = ClientSignUp()
@@ -133,6 +133,6 @@ def client_login(request):
     }
     return render(request, 'ixn_auth/login.html', context)
 
-def add_client_to_group(user): # Add client to the correct group
+def add_client_to_group(user):
     client_group, created = Group.objects.get_or_create(name='Clients')
     client_group.user_set.add(user)
