@@ -124,12 +124,18 @@ ga('send', 'pageview');
               </div>
               <div class="col-lg-8 aboutBox">
                 <div class="profile-box" id="aboutPageProfile">
+		<div class = "projectHeading col-md-12">
+		  <span>Your Submitted Projects</span>
+</div>
+
                   <div class="row">
+<div class="offset-md-1">
                     {% if project_list %}
                     <ul>
                       {% for project in project_list %}
                       <li>
-                        <p>Title: {{ project.project_title }} Approved? {{ project.project_valid }}</p>
+                        <p>{{ project.project_title }}</p>
+			<p>Approved: {{ project.project_valid }}</p>
                       </li>
                       {% endfor %}
 
@@ -137,6 +143,7 @@ ga('send', 'pageview');
                     {% else %}
                     <p>There are no projects registered.</p>
                     {% endif %}
+</div>
                   </div>
                   <div class="row">
                     <div class="col-lg-12 buttonRow">
@@ -154,6 +161,9 @@ ga('send', 'pageview');
       </main>
     </div>
   </div>
+</br>
+</br>
+</br>
   <footer class="content-info" id="footerSec">
     <div class="topcontainer">
     </div>

@@ -138,7 +138,15 @@ img.emoji {
                         <span class="aboutPageText"> Client</span>
                         <form method="post">
                           {% csrf_token %}
-                          {{ form.as_p }}
+{% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}<br>
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+{% endfor %}
                           <button type="submit" class="moreBtn draw-border float-center">Sign up</button>
                           <a class="navLink" href= "{% url 'matchingsystem:index' %}"> <button type="button" class="moreBtn draw-border float-center">Back</button></a>
                         </form>

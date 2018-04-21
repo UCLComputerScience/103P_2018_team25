@@ -6,14 +6,14 @@ class ClientSignUp(UserCreationForm): # Custom client signup form to prevent stu
     first_name = forms.CharField(
             required=False,
             max_length=30,
-            help_text='First Name')
+            help_text='Optional')
     last_name = forms.CharField(
             max_length=30,
             required=False,
-            help_text='Surname')
+            help_text='Optional')
     email = forms.EmailField(
             max_length=254,
-            help_text='Email required for contact')
+            help_text='Required for contact')
 
     class Meta:
         model = User

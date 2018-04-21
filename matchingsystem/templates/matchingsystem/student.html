@@ -34,8 +34,7 @@ img.emoji {
 </style>
 <link rel="stylesheet" href="{% static 'main.css' %}" type='text/css' media='all' />
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
-<script type='text/javascript' src="{% static 'jquery.js' %}"></script>
-<script type='text/javascript' src="{% static 'jquery-migrate.min.js' %}"></script>
+
 <link rel='https://api.w.org/' href='http://ixn.org.uk/wp-json/' />
 <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://ixn.org.uk/wp/xmlrpc.php?rsd" />
 <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://ixn.org.uk/wp/wp-includes/wlwmanifest.xml" /> 
@@ -124,13 +123,35 @@ img.emoji {
 				</div>
 				<div class="col-lg-8 aboutBox">
 					<div class="profile-box" id="aboutPageProfile">
-                        <div class="row">
                             <form method="post" action="">
                                 {% csrf_token %}
-                                {{ form.as_p }}
+<div class="field">
+        <label for="id_gender">Gender: </label>
+        {{ form.gender }}
+</div>
+<div class="field">
+        <label for="id_tag_like_1">First Preference: </label>
+        {{ form.tag_like_1 }}
+        {{ form.tag_like_1.errors }}
+</div>
+<div class="field">
+        <label for="id_tag_like_2">Second Preference: </label>
+        {{ form.tag_like_2 }}
+        {{ form.tag_like_2.errors }}
+</div>
+<div class="field">
+        <label for="id_tag_like_3">Third Preference: </label>
+        {{ form.tag_like_3 }}
+        {{ form.tag_like_3.errors }}
+</div>
+<div class="field">
+        <label for="id_distag_like_1">Least Preference: </label>
+        {{ form.tag_dislike_1 }}
+        {{ form.id_tag_like_1.errors }}
+</div>
                                 <button type="submit" class="moreBtn draw-border float-center">Submit</button>
                             </form>
-
+</br>
                             {% if messages %}
                             <ul class="messages">
                                 {% for message in messages %}
@@ -138,7 +159,6 @@ img.emoji {
                                 {% endfor %}
                             </ul>
                             {% endif %}
-                        </div>
                         
                         
                     </div>
@@ -152,6 +172,9 @@ img.emoji {
 	        </main>
               </div>
     </div>
+</br>
+</br>
+</br>
         <footer class="content-info" id="footerSec">
  <div class="topcontainer">
     </div>
@@ -180,13 +203,6 @@ img.emoji {
     </div>
 </div>
 </div>
-</footer>    <script type='text/javascript' src="{% static 'main_f5061bb7.js' %}"></script>
-<script type='text/javascript'>
-/* <![CDATA[ */
-var ajaxfunction = {"ajaxurl":"http:\/\/ixn.org.uk\/wp\/wp-admin\/admin-ajax.php","query_vars":"[]"};
-/* ]]> */
-</script>
-<script type='text/javascript' src="{% static 'ajax-function_f5061bb7.js' %}"></script>
-<script type='text/javascript' src="{% static 'wp-embed.min.js' %}"></script>
+</footer>   
 </body>
 </html>

@@ -133,13 +133,26 @@ $(document).ready(function() {
 				<div class="col-lg-8 aboutBox">
 					<div class="profile-box" id="aboutPageProfile">
                         <div class="row">
+<div class="col-12">
                             <form method="post" action="">
                                 {% csrf_token %}
-                                {{ form.as_p }}
+
+{% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}<br>
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+{% endfor %}
                                 <button type="submit" class="moreBtn draw-border float-center">Submit</button>
 <a class="navLink" href= "{{ back_url }}"> <button type="button" class="moreBtn draw-border float-center">Back</button></a>
                             </form>
-
+</br>
                             {% if messages %}
                             <ul class="messages">
                                 {% for message in messages %}
@@ -147,6 +160,7 @@ $(document).ready(function() {
                                 {% endfor %}
                             </ul>
                             {% endif %}
+</div>
                         </div>
                         
                         

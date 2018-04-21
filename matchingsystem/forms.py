@@ -17,19 +17,6 @@ class StudentForm(forms.ModelForm):
         model = Student
         fields = '__all__'
         exclude = ['student_code', 'forename', 'surname', 'email', 'previous_leader', 'exam_results', 'student_modules']
-        widgets = {
-            'tag_like_1': forms.RadioSelect, # Use radio select widgets
-            'tag_like_2': forms.RadioSelect,
-            'tag_like_3': forms.RadioSelect,
-            'tag_dislike_1': forms.RadioSelect
-        }
-
-    def __init__(self, *args, **kwargs): # Prevent null answers
-        super(StudentForm, self).__init__(*args, **kwargs)
-        self.fields['tag_like_1'].empty_label = None
-        self.fields['tag_like_2'].empty_label = None
-        self.fields['tag_like_3'].empty_label = None
-        self.fields['tag_dislike_1'].empty_label = None
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -37,7 +24,14 @@ class ProjectForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['project_tags', 'project_complexity', 'project_module', 'project_valid', 'project_user']
         widgets = {
-            'project_due_date': DateInput(),
+            'project_title': forms.Textarea,
+            'project_background': forms.Textarea,
+            'project_objectives': forms.Textarea,
+            'project_description': forms.Textarea,
+            'project_dataset': forms.Textarea,
+            'project_resources': forms.Textarea,
+            'project_mentors': forms.Textarea,
+            'project_due_date': DateInput()
         }
 
     def clean_project_due_date(self):
