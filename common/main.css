@@ -14909,7 +14909,7 @@ dl.selectbox dd ul li:hover {
 }
 
 input {
-    display: none;
+    display: initial;
     font-size: 15px
 }
 
@@ -15024,17 +15024,17 @@ input {
 }
 
 #ixnLogo {
-    background-image: url(/app/themes/ixnTheme/dist/images/footer-images/IXNLOGOMENU_ddd18133.png);
+    background-image: url(/static/IXNLOGOMENU_ddd18133.png);
     height: 48.1px
 }
 
 #uclEngLogo {
-    background-image: url(/app/themes/ixnTheme/dist/images/footer-images/UCL-Engineering-Logo_866cf0cc.png);
+    background-image: url(/static/UCL-Engineering-Logo_866cf0cc.png);
     height: 50px
 }
 
 #uclLogo {
-    background-image: url(/app/themes/ixnTheme/dist/images/footer-images/UCL-Logo_3f48b981.png);
+    background-image: url(/static/UCL-Logo_3f48b981.png);
     height: 48px
 }
 
