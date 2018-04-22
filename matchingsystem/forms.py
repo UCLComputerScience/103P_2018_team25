@@ -54,15 +54,7 @@ class MatchingForm(forms.Form):
     def save(self):
         selected_module = self.cleaned_data['module']
         selected_team_size = self.cleaned_data['team_size']
-        if size_checker == 3:
-            print("dont show me")
-            module_matching(selected_module, selected_team_size)
-        elif size_checker == 2:
-            print("case 2")
-            return redirect('result')
-        else:
-            return redirect('result')
-            print("case 1")
+        module_matching(selected_module, selected_team_size)
 
 class UploadForm(forms.Form):
     student_data = forms.FileField(
