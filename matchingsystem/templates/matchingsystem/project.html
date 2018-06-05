@@ -128,8 +128,6 @@ $(document).ready(function() {
 			</div>
 			
 			<div class="row">
-				<div class="col-lg-2  aboutBox">
-				</div>
 				<div class="col-lg-8 aboutBox">
 					<div class="profile-box" id="aboutPageProfile">
                         <div class="row">
@@ -140,10 +138,10 @@ $(document).ready(function() {
 {% for field in form %}
       <p>
         {{ field.label_tag }}<br>
-        {{ field }}<br>
         {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
+          <small style="color: grey">{{ field.help_text }}</small></br>
         {% endif %}
+        {{ field }}<br>
         {% for error in field.errors %}
           <p style="color: red">{{ error }}</p>
         {% endfor %}
@@ -165,8 +163,6 @@ $(document).ready(function() {
                         
                         
                     </div>
-				</div>
-				<div class="col-lg-2  aboutBox">
 				</div>
 			</div>
         </div>
