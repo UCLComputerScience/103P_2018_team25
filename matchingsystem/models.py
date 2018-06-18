@@ -98,17 +98,7 @@ class Student(models.Model):
         return reverse('matchingsystem:student_form', args=[str(self.student_code)])
 
     def __str__(self):
-        return self.surname + ", " + self.forename
-
-class leaders(Student):
-    assigned = models.IntegerField(
-        default=0,
-        choices=get_integer_choices(0, 1),)
-
-class members(Student):
-    assigned = models.IntegerField(
-        default=0,
-        choices=get_integer_choices(0, 1),)
+        return str(self.student_code)
 
 class Project(models.Model):
     # Uses default primary key (id)
@@ -184,3 +174,13 @@ class Project_assignment(models.Model):
     module = models.ManyToManyField(
             'Module',
             help_text='Modules the student is enrolled in')
+
+class leaders(Student):
+    assigned = models.IntegerField(
+        default=0,
+        choices=get_integer_choices(0, 1),)
+
+class members(Student):
+    assigned = models.IntegerField(
+        default=0,
+        choices=get_integer_choices(0, 1),)

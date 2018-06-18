@@ -5,7 +5,7 @@ from .models import Tag, Project, Student, Module
 
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('student_code', 'surname', 'forename', 'email')
-    list_filter = ['student_modules']
+    list_filter = ['student_modules', 'gender', 'tag_like_1', 'tag_like_2', 'tag_like_3', 'tag_dislike_1']
     search_fields = ['student_code', 'surname', 'forename', 'email']
 
     fieldsets = [

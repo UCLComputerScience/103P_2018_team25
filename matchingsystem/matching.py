@@ -20,8 +20,14 @@ def size_checker(module, team_size):
 
 	return 3
 
+# This function flushes the previous matching results
+def flush_previous():
+	Project_assignment.objects.all().delete()
+	members.objects.all().delete()
+	leaders.objects.all().delete()
 
 def module_matching(module, team_size):
+	flush_previous()
 	selected_projects = Project.objects.filter(project_module = module)
 	selected_student = Student.objects.filter(student_modules= module)
 
